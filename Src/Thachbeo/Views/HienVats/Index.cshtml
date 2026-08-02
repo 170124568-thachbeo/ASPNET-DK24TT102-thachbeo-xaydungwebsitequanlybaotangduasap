@@ -1,0 +1,59 @@
+@model IEnumerable<QuanLyBaoTangDuaSap.Models.HienVat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh Sách Hiện Vật Bảo Tàng</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm Hiện Vật Mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên Hiện Vật</th>
+            <th>Mô Tả</th>
+            <th>Ngày Tiếp Nhận</th>
+            <th>Số Lượng</th>
+            <th>Hình Ảnh</th>  
+            <th>Danh Mục</th>  
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TenHienVat)</td>
+                <td>@Html.DisplayFor(modelItem => item.MoTa)</td>
+                <td>@Html.DisplayFor(modelItem => item.NgayTiepNhan)</td>
+                <td>@Html.DisplayFor(modelItem => item.SoLuong)</td>
+
+                <!-- Ô số 5: Hiển thị Hình Ảnh (Đưa đoạn này lên trước Danh Mục) -->
+                <td>
+                    @if (!string.IsNullOrEmpty(item.HinhAnh))
+                    {
+                        <img src="/images/@item.HinhAnh" alt="Ảnh dừa sáp" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có ảnh</span>
+                    }
+                </td>
+
+                <!-- Ô số 6: Hiển thị Tên Danh Mục (Đưa đoạn này xuống sau Hình Ảnh) -->
+                <td>
+                    @item.DanhMuc?.TenDanhMuc
+                </td>
+
+                <!-- Ô số 7: Các nút bấm thao tác -->
+                <td>
+                    <a href="/HienVats/Edit?id=@item.MaHienVat" class="btn btn-sm btn-warning me-1">Sửa</a>
+                    <a href="/HienVats/Details?id=@item.MaHienVat" class="btn btn-sm btn-info text-white me-1">Xem</a>
+                    <a href="/HienVats/Delete?id=@item.MaHienVat" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<QuanLyBaoTangDuaSap.Models.HienVat>
+
+@{
+    ViewData["Title"] = "Trang Chủ Bảo Tàng Dừa Sáp";
+}
+
+<!-- Banner chào mừng hoành tráng -->
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center" style="background: linear-gradient(135deg, #e6f4ea 0%, #f4fbf7 100%); mt-4">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold text-success">🌴 BẢO TÀNG DỪA SÁP TRỰC TUYẾN 🌴</h1>
+        <p class="col-md-12 fs-5 text-muted">Khám phá không gian lưu trữ, nghiên cứu và bảo tồn các hiện vật, sản phẩm độc đáo từ đặc sản Dừa Sáp Trà Vinh.</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Thanh tìm kiếm hiện vật -->
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-6">
+            <form action="/" method="get" class="d-flex">
+                <input type="text" name="chuoiTimKiem" class="form-control me-2 shadow-sm" placeholder="Nhập tên hiện vật dừa sáp cần tìm..." />
+                <button type="submit" class="btn btn-success shadow-sm px-4">Tìm Kiếm</button>
+            </form>
+        </div>
+    </div>
+
+    <h3 class="border-bottom pb-2 text-dark mb-4">🌟 Các Hiện Vật Đang Trưng Bày</h3>
+
+    <!-- Danh sách hiện vật hiển thị dạng ô lưới (Card) -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var hienVat in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                        <!-- Khung chứa ảnh hiện vật -->
+                        <div style="height: 220px; background-color: #f8f9fa;" class="d-flex align-items-center justify-content-center">
+                            @if (!string.IsNullOrEmpty(hienVat.HinhAnh))
+                            {
+                                <img src="/images/@hienVat.HinhAnh" class="w-100 h-100" style="object-fit: cover;" alt="@hienVat.TenHienVat" />
+                            }
+                            else
+                            {
+                                <div class="text-center text-muted">
+                                    <p class="mb-0 fs-6">Chưa cập nhật hình ảnh</p>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Thân Card chứa thông tin -->
+                        <div class="card-body">
+                            <span class="badge bg-success mb-2 px-2 py-1">@hienVat.DanhMuc?.TenDanhMuc</span>
+                            <h5 class="card-title fw-bold text-dark mb-2">@hienVat.TenHienVat</h5>
+                            <p class="card-text text-muted text-truncate" style="max-height: 50px;">@hienVat.MoTa</p>
+                        </div>
+
+                        <!-- Chân Card chứa số lượng -->
+                        <div class="card-footer bg-white border-top-0 pb-3">
+                            <small class="text-muted d-block mb-1">📅 Ngày tiếp nhận: @hienVat.NgayTiepNhan?.ToString("dd/MM/yyyy")</small>
+                            <small class="text-muted d-block">📦 Số lượng lưu trữ: <span class="badge bg-secondary">@hienVat.SoLuong</span></small>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <p class="text-muted fs-5">Hiện tại chưa có hiện vật dừa sáp nào trưng bày.</p>
+            </div>
+        }
+    </div>
+</div>

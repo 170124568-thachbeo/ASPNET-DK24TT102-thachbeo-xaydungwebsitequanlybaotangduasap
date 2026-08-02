@@ -1,0 +1,79 @@
+@model QuanLyBaoTangDuaSap.Models.HienVat
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa hiện vật</h1>
+
+<h4>Thay đổi thông tin dữ liệu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="HienVats" asp-action="Edit" asp-route-id="@Model.MaHienVat" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaHienVat" />
+            <input type="hidden" asp-for="HinhAnh" />
+            <div class="form-group">
+                <label asp-for="TenHienVat" class="control-label"></label>
+                <input asp-for="TenHienVat" class="form-control" />
+                <span asp-validation-for="TenHienVat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoTa" class="control-label"></label>
+                <input asp-for="MoTa" class="form-control" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayTiepNhan" class="control-label"></label>
+                <input asp-for="NgayTiepNhan" class="form-control" />
+                <span asp-validation-for="NgayTiepNhan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoLuong" class="control-label"></label>
+                <input asp-for="SoLuong" class="form-control" />
+                <span asp-validation-for="SoLuong" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Thay Đổi Ảnh Hiện Vật (Nếu có)</label>
+                <input type="file" name="fileAnh" class="form-control" accept="image/*" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Danh Mục Hiện Vật</label>
+                <select id="BoChonDanhMuc" class="form-control" asp-items="ViewBag.MaDanhMuc"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="MaDanhMuc" class="control-label">Mã Danh Mục</label>
+                <input id="OChuaMaDanhMuc" asp-for="MaDanhMuc" class="form-control" readonly style="background-color: #e9ecef;" />
+                <span asp-validation-for="MaDanhMuc" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Lưu Thay Đổi" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại danh sách</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var boChon = document.getElementById("BoChonDanhMuc");
+            var oChuaMa = document.getElementById("OChuaMaDanhMuc");
+
+            function capNhatMa() {
+                oChuaMa.value = boChon.value;
+            }
+
+            // Tự động chọn đúng danh mục hiện tại của vật thể khi vừa mở trang
+            boChon.value = oChuaMa.value;
+
+            // Lắng nghe sự kiện thay đổi
+            boChon.addEventListener("change", capNhatMa);
+        });
+    </script>
+}
